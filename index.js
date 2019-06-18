@@ -1,45 +1,30 @@
-console.log('Welcome to the calculator!');
-const readline = require('readline-sync');
 
-console.log('Which operator would you like to use?');
-const oper = readline.prompt("word");
+const userInput = require('./userInput');
+const calculation = require('./calculation');
+const vowellCount = require('./vowellCount');
 
-var opertextfn = function(oper){
-    const ops = ['*', '-', '+', '/'];
-    var txtops = ['Multiply', 'Subtract', 'Add', 'Divide']
-    return txtops[ops.indexOf(oper)]; // find index of operator
+function welcome(){ 
+  console.log('\nWelcome to the calculator!');
+  console.log('==============================');
 }
 
-console.log('How many numbers would you like to ' + opertextfn(oper));
-const n = readline.prompt(); // # of #
-
-var numbers = new Array(0)
-for (i = 0; i < +n; i++) {
-    console.log('Enter next Numer');
-    const newvalue = readline.prompt(); // # of #
-    numbers.push(+newvalue)
+function getCalculationMode() {
+  console.log('Which calculator mode do you want?');
+  return userInput.numbinput(`\
+${ARITHMETIC_MODE}) Arithmetic
+${VOWEL_COUNTING_MODE}) Vowel counting`);
 }
 
-var dosum = function(a,b,oper){
-  switch (oper) { 
-    case "+":
-      return a + b 
-      break;
-    case "/":
-      return a / b
-      break;
-    case "-":
-      return a - b
-      break;
-    case "*":
-      return a * b
-      break;
-    default: 
-      console.log("None of those are valid operators")
-      break;
+const ARITHMETIC_MODE = 1;
+const VOWEL_COUNTING_MODE = 2;
+
+welcome()
+
+while (true) {
+  const calculationMode = getCalculationMode();
+  if (calculationMode === ARITHMETIC_MODE) {
+    calculation.performOneCalculation();
+  } else if (calculationMode === VOWEL_COUNTING_MODE) {
+    vowellCount.performOneVowelCountingCalculation();
   }
 }
-
-var answer = numbers.reduce(function(accumulator, currentValue) { return dosum(accumulator,currentValue, oper); }, 0);
-
-
